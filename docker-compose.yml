@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  ghost:
+    image: ghost:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 2368:2368
+    environment:
+      url: https://blog.anle.vn
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password: anle
+      database__connection__database: ghost
+    volumes:
+      - ./ghost_content:/var/lib/ghost/content
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: anle
+    volumes:
+      - ./ghost_mysql:/var/lib/mysql
